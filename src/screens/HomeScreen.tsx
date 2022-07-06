@@ -52,7 +52,7 @@ const HomeScreen: FC = () => {
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
     };
-  }, []);
+  }, [target, source]);
 
   const onSpeechPartialResults = (e: SpeechResultsEvent) => {
     const searchValue: string =
@@ -85,7 +85,7 @@ const HomeScreen: FC = () => {
     targetCode: string,
   ) => {
     clearTimeout(typingTimer.current);
-
+    const countdown = recognizingStatus ? 1000 : 500;
     typingTimer.current = setTimeout(async () => {
       if (val) {
         if (recognizingStatus) {
@@ -96,7 +96,7 @@ const HomeScreen: FC = () => {
       } else {
         setResults('');
       }
-    }, 500);
+    }, countdown);
   };
 
   const replaceLanguage = async () => {
