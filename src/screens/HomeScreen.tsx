@@ -13,6 +13,7 @@ import {RootRouteProps, RootStackParamList} from '../models/RootStackParamList';
 import {translateText} from '../utils/translations';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import {languageData} from '../data/languageData';
+import TranslationResults from '../components/cards/TranslationResults';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
@@ -135,8 +136,7 @@ const HomeScreen: FC = () => {
           </View>
         </View>
       </View>
-
-      <Text>{results}</Text>
+      <TranslationResults results={results} />
     </View>
   );
 };
@@ -146,6 +146,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#141414',
   },
   selectLanguageContainer: {
     flexDirection: 'row',
