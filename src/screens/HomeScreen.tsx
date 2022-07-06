@@ -15,12 +15,12 @@ import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import {languageData} from '../data/languageData';
 import TranslationResults from '../components/cards/TranslationResults';
 import Translation from '../components/cards/Translation';
+import SelectLanguage from '../components/cards/SelectLanguage';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
   const [source, setSource] = useState<any>(languageData[0]);
   const [target, setTarget] = useState<any>(languageData[1]);
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [searchText, setSearchText] = useState<string>('');
   const route = useRoute<RootRouteProps<'HomeScreen'>>();
   const {newTarget, type} = route?.params;
@@ -32,6 +32,7 @@ const HomeScreen: FC = () => {
       setTarget(newTarget);
     }
   }, [newTarget, type]);
+
   useEffect(() => {
     Voice.onSpeechPartialResults = onSpeechPartialResults;
     return () => {
@@ -79,6 +80,7 @@ const HomeScreen: FC = () => {
       }
     }, 500);
   };
+
   const replaceLanguage = async () => {
     setTarget(source);
     setSource(target);
@@ -90,29 +92,11 @@ const HomeScreen: FC = () => {
   return (
     <View style={styles.container}>
       <Header boldTitle="Rise" title="Translator" />
-      <View style={styles.selectLanguageContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('LanguagesScreen', {
-              target: source,
-              type: 'source',
-            })
-          }>
-          <Text style={styles.languageTitle}>{source.name}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => replaceLanguage()}>
-          <Text style={styles.languageTitle}>{'<>'}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('LanguagesScreen', {
-              target: target,
-              type: 'target',
-            })
-          }>
-          <Text style={styles.languageTitle}>{target.name}</Text>
-        </TouchableOpacity>
-      </View>
+      <SelectLanguage
+        source={source}
+        target={target}
+        replaceLanguage={replaceLanguage}
+      />
       <Translation
         setSearchText={setSearchText}
         searchText={searchText}
@@ -131,19 +115,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#141414',
-  },
-  selectLanguageContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    height: 50,
-    backgroundColor: '#343a40',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    borderBottomColor: 'white',
-    borderBottomWidth: 0.4,
-  },
-  languageTitle: {
-    color: 'white',
   },
 });
