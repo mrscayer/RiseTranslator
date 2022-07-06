@@ -12,11 +12,26 @@ import SelectLanguage from '../components/cards/SelectLanguage';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
-  const [source, setSource] = useState<any>(languageData[0]);
-  const [target, setTarget] = useState<any>(languageData[1]);
+  const [source, setSource] = useState<{
+    code: string;
+    name: string;
+    voiceCode: string;
+  }>({code: '', name: '', voiceCode: ''});
+
+  const [target, setTarget] = useState<{
+    code: string;
+    name: string;
+    voiceCode: string;
+  }>({code: '', name: '', voiceCode: ''});
+
   const [searchText, setSearchText] = useState<string>('');
   const route = useRoute<RootRouteProps<'HomeScreen'>>();
   const typingTimer = useRef<any>(null);
+
+  useEffect(() => {
+    setSource(languageData[0]);
+    setTarget(languageData[0]);
+  }, []);
 
   const {newTarget, type} = useMemo(() => {
     return route?.params;
