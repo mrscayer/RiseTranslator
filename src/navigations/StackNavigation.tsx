@@ -6,7 +6,11 @@ const Stack = createStackNavigator();
 const StackNavigation: FC = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        initialParams={{newData: {}, type: ''}}
+      />
       <Stack.Screen
         name="LanguagesScreen"
         component={LanguagesScreen}

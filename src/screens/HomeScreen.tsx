@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {FC, useEffect, useState} from 'react';
 import {
@@ -9,17 +9,27 @@ import {
   View,
 } from 'react-native';
 import Header from '../components/Header';
-import {RootStackParamList} from '../models/RootStackParamList';
+import {RootRouteProps, RootStackParamList} from '../models/RootStackParamList';
 import {translateText} from '../utils/translations';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
+import {languageData} from '../data/languageData';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
-  const [source, setSource] = useState<string>('en');
-  const [target, setTarget] = useState<string>('tr');
+  const [source, setSource] = useState<any>(languageData[0]);
+  const [target, setTarget] = useState<any>(languageData[1]);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [searchText, setSearchText] = useState<string>('');
-  let recognizingStatus: boolean = false;
+  const route = useRoute<RootRouteProps<'HomeScreen'>>();
+  const {newTarget, type} = route?.params;
+
+  useEffect(() => {
+    if (type === 'source') {
+      setSource(newTarget);
+    } else if (type === 'target') {
+      setTarget(newTarget);
+    }
+  }, [newTarget, type]);
   useEffect(() => {
     Voice.onSpeechPartialResults = onSpeechPartialResults;
     return () => {
@@ -31,14 +41,13 @@ const HomeScreen: FC = () => {
     const searchValue: string =
       typeof e?.value?.[0] === 'string' ? e?.value?.[0] : '';
     setSearchText(searchValue);
-    translate(searchValue);
+    translate(searchValue, true);
   };
 
   const _startRecognizing = async () => {
     try {
-      await Voice.start('en-US');
+      await Voice.start(source.voiceCode);
       setSearchText('');
-      recognizingStatus = true;
     } catch (e) {
       console.error(e);
     }
@@ -47,7 +56,6 @@ const HomeScreen: FC = () => {
   const _stopRecognizing = async () => {
     try {
       await Voice.stop();
-      recognizingStatus = false;
     } catch (e) {
       console.error(e);
     }
@@ -55,19 +63,26 @@ const HomeScreen: FC = () => {
 
   let typingTimer: any = null;
 
-  const translate = (val: string) => {
+  const translate = (val: string, recognizingStatus: boolean) => {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(async () => {
       if (val) {
         if (recognizingStatus) {
           _stopRecognizing();
         }
-        const res = await translateText(val, source, target);
+        const res = await translateText(val, source.code, target.code);
         setResults(res);
       } else {
         setResults('');
       }
     }, 500);
+  };
+  const replaceLanguage = async () => {
+    setTarget(source);
+    setSource(target);
+    setSearchText(results);
+    const res = await translateText(results, target.code, source.code);
+    setResults(res);
   };
 
   return (
@@ -75,18 +90,33 @@ const HomeScreen: FC = () => {
       <Header boldTitle="Rise" title="Translator" />
       <View style={styles.selectLanguageContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('LanguagesScreen')}>
-          <Text style={styles.languageTitle}>English</Text>
+          onPress={() =>
+            navigation.navigate('LanguagesScreen', {
+              target: source,
+              type: 'source',
+            })
+          }>
+          <Text style={styles.languageTitle}>{source.name}</Text>
         </TouchableOpacity>
-        <Text style={styles.languageTitle}>{'<>'}</Text>
-        <Text style={styles.languageTitle}>Turkish</Text>
+        <TouchableOpacity onPress={() => replaceLanguage()}>
+          <Text style={styles.languageTitle}>{'<>'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('LanguagesScreen', {
+              target: target,
+              type: 'target',
+            })
+          }>
+          <Text style={styles.languageTitle}>{target.name}</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.main}>
         <View style={styles.row}>
           <TextInput
             onChangeText={val => {
               setSearchText(val);
-              translate(val);
+              translate(val, false);
             }}
             autoCapitalize={'none'}
             placeholder="type anything"
