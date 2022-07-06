@@ -1,5 +1,5 @@
 import {useRoute} from '@react-navigation/native';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Header from '../components/Header';
 import {RootRouteProps} from '../models/RootStackParamList';
@@ -16,8 +16,11 @@ const HomeScreen: FC = () => {
   const [target, setTarget] = useState<any>(languageData[1]);
   const [searchText, setSearchText] = useState<string>('');
   const route = useRoute<RootRouteProps<'HomeScreen'>>();
-  const {newTarget, type} = route?.params;
-  let typingTimer: any = null;
+  const typingTimer = useRef<any>(null);
+
+  const {newTarget, type} = useMemo(() => {
+    return route?.params;
+  }, [route?.params]);
 
   useEffect(() => {
     if (type === 'source') {
@@ -66,15 +69,15 @@ const HomeScreen: FC = () => {
     sourceCode: string,
     targetCode: string,
   ) => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(async () => {
+    clearTimeout(typingTimer.current);
+
+    typingTimer.current = setTimeout(async () => {
       if (val) {
         if (recognizingStatus) {
           _stopRecognizing();
         }
         const res = await translateText(val, sourceCode, targetCode);
         setResults(res);
-        console.log(res);
       } else {
         setResults('');
       }
