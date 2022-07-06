@@ -1,15 +1,8 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {useRoute} from '@react-navigation/native';
 import React, {FC, useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Header from '../components/Header';
-import {RootRouteProps, RootStackParamList} from '../models/RootStackParamList';
+import {RootRouteProps} from '../models/RootStackParamList';
 import {translateText} from '../utils/translations';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import {languageData} from '../data/languageData';
@@ -24,12 +17,15 @@ const HomeScreen: FC = () => {
   const [searchText, setSearchText] = useState<string>('');
   const route = useRoute<RootRouteProps<'HomeScreen'>>();
   const {newTarget, type} = route?.params;
+  let typingTimer: any = null;
 
   useEffect(() => {
     if (type === 'source') {
       setSource(newTarget);
+      translate(results, false, newTarget.code, target?.code);
     } else if (type === 'target') {
       setTarget(newTarget);
+      translate(results, false, source.code, newTarget?.code);
     }
   }, [newTarget, type]);
 
@@ -44,7 +40,7 @@ const HomeScreen: FC = () => {
     const searchValue: string =
       typeof e?.value?.[0] === 'string' ? e?.value?.[0] : '';
     setSearchText(searchValue);
-    translate(searchValue, true);
+    translate(searchValue, true, source?.code, target?.code);
   };
 
   const _startRecognizing = async () => {
@@ -64,16 +60,19 @@ const HomeScreen: FC = () => {
     }
   };
 
-  let typingTimer: any = null;
-
-  const translate = (val: string, recognizingStatus: boolean) => {
+  const translate = (
+    val: string,
+    recognizingStatus: boolean,
+    sourceCode: string,
+    targetCode: string,
+  ) => {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(async () => {
       if (val) {
         if (recognizingStatus) {
           _stopRecognizing();
         }
-        const res = await translateText(val, source.code, target.code);
+        const res = await translateText(val, sourceCode, targetCode);
         setResults(res);
       } else {
         setResults('');
@@ -85,8 +84,7 @@ const HomeScreen: FC = () => {
     setTarget(source);
     setSource(target);
     setSearchText(results);
-    const res = await translateText(results, target.code, source.code);
-    setResults(res);
+    translate(results, false, target.code, source?.code);
   };
 
   return (
@@ -100,7 +98,9 @@ const HomeScreen: FC = () => {
       <Translation
         setSearchText={setSearchText}
         searchText={searchText}
-        translate={translate}
+        translate={(val, recognationStatus) =>
+          translate(val, recognationStatus, source?.code, target?.code)
+        }
         _startRecognizing={_startRecognizing}
         _stopRecognizing={_stopRecognizing}
       />
