@@ -30,7 +30,7 @@ const HomeScreen: FC = () => {
 
   useEffect(() => {
     setSource(languageData[0]);
-    setTarget(languageData[0]);
+    setTarget(languageData[1]);
   }, []);
 
   const {newTarget, type} = useMemo(() => {
