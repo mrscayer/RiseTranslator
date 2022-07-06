@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,21 +11,59 @@ import {
 import Header from '../components/Header';
 import {RootStackParamList} from '../models/RootStackParamList';
 import {translateText} from '../utils/translations';
+import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
   const [source, setSource] = useState<string>('en');
   const [target, setTarget] = useState<string>('tr');
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [searchText, setSearchText] = useState<string>('');
+  let recognizingStatus: boolean = false;
+  useEffect(() => {
+    Voice.onSpeechPartialResults = onSpeechPartialResults;
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
+
+  const onSpeechPartialResults = (e: SpeechResultsEvent) => {
+    const searchValue: string =
+      typeof e?.value?.[0] === 'string' ? e?.value?.[0] : '';
+    setSearchText(searchValue);
+    translate(searchValue);
+  };
+
+  const _startRecognizing = async () => {
+    try {
+      await Voice.start('en-US');
+      setSearchText('');
+      recognizingStatus = true;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const _stopRecognizing = async () => {
+    try {
+      await Voice.stop();
+      recognizingStatus = false;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   let typingTimer: any = null;
 
   const translate = (val: string) => {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(async () => {
       if (val) {
+        if (recognizingStatus) {
+          _stopRecognizing();
+        }
         const res = await translateText(val, source, target);
         setResults(res);
-        console.log('çalıştı');
       } else {
         setResults('');
       }
@@ -46,16 +84,24 @@ const HomeScreen: FC = () => {
       <View style={styles.main}>
         <View style={styles.row}>
           <TextInput
-            onChangeText={val => translate(val)}
+            onChangeText={val => {
+              setSearchText(val);
+              translate(val);
+            }}
             autoCapitalize={'none'}
             placeholder="type anything"
             style={styles.input}
             placeholderTextColor="rgba(255,255,255,0.8)"
             multiline
+            value={searchText}
           />
           <View>
-            <Text>X</Text>
-            <Text>S</Text>
+            <TouchableOpacity onPress={() => _startRecognizing()}>
+              <Text>X</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => _stopRecognizing()}>
+              <Text>S</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
