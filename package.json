@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@react-native-masked-view/masked-view": "^0.2.6",
+    "@react-native-voice/voice": "^3.2.4",
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/stack": "^6.2.2",
+    "axios": "^0.27.2",
     "react": "18.0.0",
     "react-native": "0.69.1",
     "react-native-gesture-handler": "^2.5.0",
