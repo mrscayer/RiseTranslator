@@ -14,6 +14,7 @@ import {translateText} from '../utils/translations';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import {languageData} from '../data/languageData';
 import TranslationResults from '../components/cards/TranslationResults';
+import Translation from '../components/cards/Translation';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
@@ -112,31 +113,14 @@ const HomeScreen: FC = () => {
           <Text style={styles.languageTitle}>{target.name}</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.main}>
-        <View style={styles.row}>
-          <TextInput
-            onChangeText={val => {
-              setSearchText(val);
-              translate(val, false);
-            }}
-            autoCapitalize={'none'}
-            placeholder="type anything"
-            style={styles.input}
-            placeholderTextColor="rgba(255,255,255,0.8)"
-            multiline
-            value={searchText}
-          />
-          <View>
-            <TouchableOpacity onPress={() => _startRecognizing()}>
-              <Text>X</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => _stopRecognizing()}>
-              <Text>S</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <TranslationResults results={results} />
+      <Translation
+        setSearchText={setSearchText}
+        searchText={searchText}
+        translate={translate}
+        _startRecognizing={_startRecognizing}
+        _stopRecognizing={_stopRecognizing}
+      />
+      {results !== '' && <TranslationResults results={results} />}
     </View>
   );
 };
@@ -159,22 +143,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'white',
     borderBottomWidth: 0.4,
   },
-  main: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    backgroundColor: '#343a40',
-  },
-  input: {
-    width: '90%',
-    height: 100,
-    paddingLeft: 8,
-    color: 'white',
-    padding: 0,
-  },
   languageTitle: {
     color: 'white',
-  },
-  row: {
-    flexDirection: 'row',
   },
 });
