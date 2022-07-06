@@ -117,8 +117,8 @@ const HomeScreen: FC = () => {
       <Translation
         setSearchText={setSearchText}
         searchText={searchText}
-        translate={(val, recognationStatus) =>
-          translate(val, recognationStatus, source?.code, target?.code)
+        translate={(val, recognitionStatus) =>
+          translate(val, recognitionStatus, source?.code, target?.code)
         }
         _startRecognizing={_startRecognizing}
         _stopRecognizing={_stopRecognizing}
