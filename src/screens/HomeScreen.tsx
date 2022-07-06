@@ -22,10 +22,10 @@ const HomeScreen: FC = () => {
   useEffect(() => {
     if (type === 'source') {
       setSource(newTarget);
-      translate(results, false, newTarget.code, target?.code);
+      translate(searchText, false, newTarget.code, target?.code);
     } else if (type === 'target') {
       setTarget(newTarget);
-      translate(results, false, source.code, newTarget?.code);
+      translate(searchText, false, source.code, newTarget?.code);
     }
   }, [newTarget, type]);
 
@@ -74,6 +74,7 @@ const HomeScreen: FC = () => {
         }
         const res = await translateText(val, sourceCode, targetCode);
         setResults(res);
+        console.log(res);
       } else {
         setResults('');
       }
