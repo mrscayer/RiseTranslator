@@ -1,11 +1,14 @@
 import React, {FC} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import FavoriteContextProvider from './src/contexts/FavoriteProvider';
 import Route from './src/Route';
 
 const App: FC = () => {
   return (
     <SafeAreaProvider>
-      <Route />
+      <FavoriteContextProvider>
+        <Route />
+      </FavoriteContextProvider>
     </SafeAreaProvider>
   );
 };

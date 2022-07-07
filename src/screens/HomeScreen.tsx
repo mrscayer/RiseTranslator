@@ -9,6 +9,7 @@ import {languageData} from '../data/languageData';
 import TranslationResults from '../components/cards/TranslationResults';
 import Translation from '../components/cards/Translation';
 import SelectLanguage from '../components/cards/SelectLanguage';
+import {useFavorite} from '../contexts/FavoriteProvider';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
@@ -28,6 +29,7 @@ const HomeScreen: FC = () => {
   const route = useRoute<RootRouteProps<'HomeScreen'>>();
   const typingTimer = useRef<any>(null);
   const [recordStatus, setRecordStatus] = useState<boolean>(false);
+  const {favorites, addFavorite} = useFavorite();
 
   useEffect(() => {
     setSource(languageData[0]);
