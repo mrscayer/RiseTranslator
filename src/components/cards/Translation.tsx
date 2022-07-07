@@ -13,6 +13,7 @@ interface TranslationProps {
   searchText: string;
   _startRecognizing: () => void;
   _stopRecognizing: () => void;
+  recordStatus: boolean;
 }
 
 const Translation: FC<TranslationProps> = ({
@@ -21,6 +22,7 @@ const Translation: FC<TranslationProps> = ({
   searchText,
   _startRecognizing,
   _stopRecognizing,
+  recordStatus,
 }) => {
   return (
     <View style={styles.main}>
@@ -38,20 +40,32 @@ const Translation: FC<TranslationProps> = ({
           value={searchText}
         />
         <View>
-          <TouchableOpacity onPress={() => _startRecognizing()}>
-            <Text>X</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => _stopRecognizing()}>
-            <Text>S</Text>
-          </TouchableOpacity>
+          {searchText !== '' && (
+            <TouchableOpacity
+              onPress={() => {
+                translate('', false);
+                setSearchText('');
+              }}>
+              <Text style={styles.clear}>X</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
+      <TouchableOpacity
+        onPress={() =>
+          recordStatus ? _stopRecognizing() : _startRecognizing()
+        }>
+        <View style={styles.record}>
+          <Text style={styles.recordText}>
+            {recordStatus ? 'Stop' : 'Start'} Record
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
 const styles = StyleSheet.create({
   main: {
-    flexDirection: 'row',
     justifyContent: 'space-evenly',
     backgroundColor: '#343a40',
     borderBottomLeftRadius: 8,
@@ -69,6 +83,26 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+  },
+  clear: {
+    fontSize: 20,
+    color: 'white',
+    padding: 5,
+  },
+  record: {
+    flexDirection: 'row',
+    width: 100,
+    height: 40,
+    borderColor: 'white',
+    borderWidth: 0.4,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  recordText: {
+    color: 'white',
   },
 });
 export default Translation;

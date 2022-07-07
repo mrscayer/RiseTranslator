@@ -27,6 +27,7 @@ const HomeScreen: FC = () => {
   const [searchText, setSearchText] = useState<string>('');
   const route = useRoute<RootRouteProps<'HomeScreen'>>();
   const typingTimer = useRef<any>(null);
+  const [recordStatus, setRecordStatus] = useState<boolean>(false);
 
   useEffect(() => {
     setSource(languageData[0]);
@@ -68,6 +69,7 @@ const HomeScreen: FC = () => {
         EXTRA_PARTIAL_RESULTS: true,
         EXTRA_MAX_RESULTS: 30,
       });
+      setRecordStatus(true);
       setSearchText('');
     } catch (e) {
       console.error(e);
@@ -76,6 +78,7 @@ const HomeScreen: FC = () => {
 
   const _stopRecognizing = async () => {
     try {
+      setRecordStatus(false);
       await Voice.stop();
     } catch (e) {
       console.error(e);
@@ -127,6 +130,7 @@ const HomeScreen: FC = () => {
           }
           _startRecognizing={_startRecognizing}
           _stopRecognizing={_stopRecognizing}
+          recordStatus={recordStatus}
         />
         {results !== '' && <TranslationResults results={results} />}
       </ScrollView>
