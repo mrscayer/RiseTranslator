@@ -52,7 +52,7 @@ const FavoriteContextProvider: FC<Props> = ({children}) => {
 
     if (findIntex === -1) {
       let newData = [...favorites];
-      newData.push(item);
+      newData.unshift(item);
       setFavorites(newData);
     } else {
       let filteredData = favorites.filter((data, index) => {

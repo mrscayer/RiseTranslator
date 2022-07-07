@@ -1,16 +1,14 @@
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import React, {FC} from 'react';
+import FavoritesScreen from '../screens/FavoritesScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LanguagesScreen from '../screens/LanguagesScreen';
+import BottomNavigation from './BottomNavigation';
 const Stack = createStackNavigator();
 const StackNavigation: FC = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        initialParams={{newData: {}, type: ''}}
-      />
+      <Stack.Screen name="Home" component={BottomNavigation} />
       <Stack.Screen
         name="LanguagesScreen"
         component={LanguagesScreen}
