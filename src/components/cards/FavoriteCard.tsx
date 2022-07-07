@@ -33,15 +33,13 @@ const FavoriteCard: FC<FavoriteCardProps> = ({item}) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          width: width - 75,
-        }}>
-        <Text style={{color: 'white'}}>
-          {item?.sourceCode}: {item.sourceText}
+      <View style={styles.textContainer}>
+        <Text style={styles.sourceText}>
+          <Text style={styles.bold}>{item?.sourceCode}</Text>: {item.sourceText}
         </Text>
-        <Text style={{color: 'white', marginTop: 5}}>
-          {item?.targetCode}: {item.translateText}
+        <Text style={styles.targetText}>
+          <Text style={styles.bold}>{item?.targetCode}</Text>:{' '}
+          {item.translateText}
         </Text>
       </View>
       <TouchableOpacity onPress={AddOrRemoveFavorite}>
@@ -69,6 +67,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  sourceText: {
+    color: 'white',
+  },
+  targetText: {
+    color: 'white',
+    marginTop: 5,
+  },
+  bold: {
+    fontWeight: '600',
+  },
+  textContainer: {
+    width: width - 75,
   },
 });
 export default FavoriteCard;
