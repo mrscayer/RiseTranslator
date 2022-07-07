@@ -134,7 +134,14 @@ const HomeScreen: FC = () => {
           _stopRecognizing={_stopRecognizing}
           recordStatus={recordStatus}
         />
-        {results !== '' && <TranslationResults results={results} />}
+        {results !== '' && (
+          <TranslationResults
+            results={results}
+            searchText={searchText}
+            targetCode={target?.code}
+            sourceCode={source?.code}
+          />
+        )}
       </ScrollView>
     </View>
   );

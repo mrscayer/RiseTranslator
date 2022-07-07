@@ -1,9 +1,15 @@
 import React, {useContext, createContext, useState, useEffect, FC} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface FavoriteType {
+  sourceText: string;
+  translateText: string;
+  targetCode: string;
+  sourceCode: string;
+}
 interface ContextState {
-  favorites: any;
-  addFavorite: (item: any) => void;
+  favorites: Array<FavoriteType>;
+  addFavorite: (item: FavoriteType) => void;
 }
 
 const FavoriteContext = createContext<ContextState>({
@@ -22,6 +28,8 @@ const FavoriteContextProvider: FC<Props> = ({children}) => {
     Array<{
       sourceText: '';
       translateText: '';
+      targetCode: '';
+      sourceCode: '';
     }>
   >([]);
 
@@ -37,7 +45,9 @@ const FavoriteContextProvider: FC<Props> = ({children}) => {
     const findIntex: number = favorites.findIndex(
       data =>
         data?.sourceText === item?.sourceText &&
-        data?.translateText === item?.translateText,
+        data?.translateText === item?.translateText &&
+        data?.sourceCode === item?.sourceCode &&
+        data?.targetCode === item?.targetCode,
     );
 
     if (findIntex === -1) {
@@ -53,6 +63,8 @@ const FavoriteContextProvider: FC<Props> = ({children}) => {
   };
 
   useEffect(() => {
+    console.log(favorites);
+
     AsyncStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
 
