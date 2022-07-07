@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {Platform, StyleSheet, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 interface HeaderProps {
   boldTitle: string;
@@ -16,11 +16,12 @@ const Header: FC<HeaderProps> = ({boldTitle, title}) => {
 };
 const styles = StyleSheet.create({
   header: {
-    height: 80,
     width: '100%',
     backgroundColor: '#495057',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: 8,
+    paddingTop: Platform.OS === 'android' ? 8 : 0,
   },
 
   boldTitle: {
