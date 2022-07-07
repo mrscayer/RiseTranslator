@@ -10,7 +10,7 @@ const FavoriteButton: FC<Props> = ({onPress, isFavorite}) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Image
-        source={require('../../constants/files/star.png')}
+        source={require('@constants/files/star.png')}
         style={[styles.star, !isFavorite ? {tintColor: 'gray'} : {}]}
       />
     </TouchableOpacity>

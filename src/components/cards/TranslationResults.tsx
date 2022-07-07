@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {useFavorite} from '../../contexts/FavoriteProvider';
+import {useFavorite} from '@contexts/FavoriteProvider';
 import FavoriteButton from '../buttons/FavoriteButton';
 interface TranslationResultsProps {
   results: string;

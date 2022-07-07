@@ -1,6 +1,6 @@
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import React, {FC} from 'react';
-import LanguagesScreen from '../screens/LanguagesScreen';
+import LanguagesScreen from '@screens/LanguagesScreen';
 import BottomNavigation from './BottomNavigation';
 const Stack = createStackNavigator();
 const StackNavigation: FC = () => {

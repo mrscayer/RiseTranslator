@@ -6,9 +6,9 @@ import {
 import React, {FC, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import LanguageItem from '../components/languageList/LanguageItem';
-import {languageData} from '../data/languageData';
-import {RootRouteProps, RootStackParamList} from '../models/RootStackParamList';
+import LanguageItem from '@components/languageList/LanguageItem';
+import {languageData} from '@data/languageData';
+import {RootRouteProps, RootStackParamList} from '@models/RootStackParamList';
 
 const LanguagesScreen: FC = () => {
   const route = useRoute<RootRouteProps<'LanguagesScreen'>>();
@@ -32,6 +32,9 @@ const LanguagesScreen: FC = () => {
         onScroll={({nativeEvent}) => {
           const scrolledTop = nativeEvent.contentOffset.y <= 0;
           setIsScrolledTop(scrolledTop);
+          setTimeout(() => {
+            setIsScrolledTop(false);
+          }, 2000);
         }}
         data={languageData}
         extraData={target}

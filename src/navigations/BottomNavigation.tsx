@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import FavoritesScreen from '../screens/FavoritesScreen';
-import HomeScreen from '../screens/HomeScreen';
+import FavoritesScreen from '@screens/FavoritesScreen';
+import HomeScreen from '@screens/HomeScreen';
 import {Image} from 'react-native';
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +21,7 @@ const BottomNavigation: FC = () => {
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
             <Image
-              source={require('../constants/files/home.png')}
+              source={require('@constants/files/home.png')}
               style={{width: 25, height: 25, tintColor: color}}
             />
           ),
@@ -34,7 +34,7 @@ const BottomNavigation: FC = () => {
           tabBarLabel: 'Favorites',
           tabBarIcon: ({color}) => (
             <Image
-              source={require('../constants/files/star.png')}
+              source={require('@constants/files/star.png')}
               style={{width: 25, height: 25, tintColor: color}}
             />
           ),

@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {FC} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {RootStackParamList} from '../../models/RootStackParamList';
+import {RootStackParamList} from '@models/RootStackParamList';
 import ButtonWithText from '../buttons/ButtonWithText';
 interface SelectLanguageProps {
   source: any;
@@ -30,7 +30,7 @@ const SelectLanguage: FC<SelectLanguageProps> = ({
       />
       <TouchableOpacity onPress={() => replaceLanguage()}>
         <Image
-          source={require('../../constants/files/swap.png')}
+          source={require('@constants/files/swap.png')}
           style={styles.swap}
         />
       </TouchableOpacity>

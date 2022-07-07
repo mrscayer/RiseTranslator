@@ -1,15 +1,15 @@
 import {useRoute} from '@react-navigation/native';
 import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
 import {Platform, ScrollView, StyleSheet, View} from 'react-native';
-import Header from '../components/Header';
-import {RootRouteProps} from '../models/RootStackParamList';
-import {translateText} from '../utils/translations';
+import Header from '@components/Header';
+import {RootRouteProps} from '@models/RootStackParamList';
+import {translateText} from '@utils/translations';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
-import {languageData} from '../data/languageData';
-import TranslationResults from '../components/cards/TranslationResults';
-import Translation from '../components/cards/Translation';
-import SelectLanguage from '../components/cards/SelectLanguage';
-import {useFavorite} from '../contexts/FavoriteProvider';
+import {languageData} from '@data/languageData';
+import TranslationResults from '@components/cards/TranslationResults';
+import Translation from '@components/cards/Translation';
+import SelectLanguage from '@components/cards/SelectLanguage';
+import {useFavorite} from '@contexts/FavoriteProvider';
 
 const HomeScreen: FC = () => {
   const [results, setResults] = useState<string>('');
