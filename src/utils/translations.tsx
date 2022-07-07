@@ -5,9 +5,6 @@ export const translateText = async (
   source: string,
   target: string,
 ) => {
-  console.log('target', target);
-  console.log('source', source);
-
   const data = {
     q: value,
     source: source,
