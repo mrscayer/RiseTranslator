@@ -1,6 +1,6 @@
 import {useRoute} from '@react-navigation/native';
 import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import Header from '../components/Header';
 import {RootRouteProps} from '../models/RootStackParamList';
 import {translateText} from '../utils/translations';
@@ -114,16 +114,18 @@ const HomeScreen: FC = () => {
         target={target}
         replaceLanguage={replaceLanguage}
       />
-      <Translation
-        setSearchText={setSearchText}
-        searchText={searchText}
-        translate={(val, recognitionStatus) =>
-          translate(val, recognitionStatus, source?.code, target?.code)
-        }
-        _startRecognizing={_startRecognizing}
-        _stopRecognizing={_stopRecognizing}
-      />
-      {results !== '' && <TranslationResults results={results} />}
+      <ScrollView keyboardShouldPersistTaps="handled" bounces={false}>
+        <Translation
+          setSearchText={setSearchText}
+          searchText={searchText}
+          translate={(val, recognitionStatus) =>
+            translate(val, recognitionStatus, source?.code, target?.code)
+          }
+          _startRecognizing={_startRecognizing}
+          _stopRecognizing={_stopRecognizing}
+        />
+        {results !== '' && <TranslationResults results={results} />}
+      </ScrollView>
     </View>
   );
 };
