@@ -63,8 +63,6 @@ const FavoriteContextProvider: FC<Props> = ({children}) => {
   };
 
   useEffect(() => {
-    console.log(favorites);
-
     AsyncStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
 

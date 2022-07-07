@@ -1,7 +1,11 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import React, {FC} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StackNavigationProp,
+  useGestureHandlerRef,
+} from '@react-navigation/stack';
+import React, {FC, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
 import LanguageItem from '../components/languageList/LanguageItem';
 import {languageData} from '../data/languageData';
 import {RootRouteProps, RootStackParamList} from '../models/RootStackParamList';
@@ -10,7 +14,8 @@ const LanguagesScreen: FC = () => {
   const route = useRoute<RootRouteProps<'LanguagesScreen'>>();
   const {target, type} = route?.params;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+  const ref = useGestureHandlerRef();
+  const [isScrolledTop, setIsScrolledTop] = useState<boolean>(false);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -23,9 +28,13 @@ const LanguagesScreen: FC = () => {
         <Text style={styles.listHeaderText}>All Languages</Text>
       </View>
       <FlatList
+        waitFor={isScrolledTop ? ref : undefined}
+        onScroll={({nativeEvent}) => {
+          const scrolledTop = nativeEvent.contentOffset.y <= 0;
+          setIsScrolledTop(scrolledTop);
+        }}
         data={languageData}
         extraData={target}
-        bounces={false}
         renderItem={({item, index}) => {
           return (
             <TouchableOpacity
