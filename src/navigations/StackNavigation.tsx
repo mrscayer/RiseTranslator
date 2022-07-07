@@ -1,7 +1,5 @@
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import React, {FC} from 'react';
-import FavoritesScreen from '../screens/FavoritesScreen';
-import HomeScreen from '../screens/HomeScreen';
 import LanguagesScreen from '../screens/LanguagesScreen';
 import BottomNavigation from './BottomNavigation';
 const Stack = createStackNavigator();

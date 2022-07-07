@@ -1,11 +1,5 @@
 import React, {FC} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 import ButtonWithText from '../buttons/ButtonWithText';
 import RecordButton from '../buttons/RecordButton';
 

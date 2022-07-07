@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import FavoriteCard from '../components/cards/FavoriteCard';
 import Header from '../components/Header';
 import {useFavorite} from '../contexts/FavoriteProvider';

@@ -1,6 +1,5 @@
 import React, {FC, useEffect, useMemo, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet, Text, View} from 'react-native';
 import {useFavorite} from '../../contexts/FavoriteProvider';
 import FavoriteButton from '../buttons/FavoriteButton';
 interface TranslationResultsProps {

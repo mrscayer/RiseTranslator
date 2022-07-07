@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FavoritesScreen from '../screens/FavoritesScreen';
-import StackNavigation from './StackNavigation';
 import HomeScreen from '../screens/HomeScreen';
 import {Image} from 'react-native';
 

@@ -1,12 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import {useFavorite} from '../../contexts/FavoriteProvider';
 import FavoriteButton from '../buttons/FavoriteButton';
 const width = Dimensions.get('screen').width;
