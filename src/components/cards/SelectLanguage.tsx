@@ -3,6 +3,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import React, {FC} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {RootStackParamList} from '../../models/RootStackParamList';
+import ButtonWithText from '../buttons/ButtonWithText';
 interface SelectLanguageProps {
   source: any;
   target: any;
@@ -17,30 +18,32 @@ const SelectLanguage: FC<SelectLanguageProps> = ({
 
   return (
     <View style={styles.selectLanguageContainer}>
-      <TouchableOpacity
+      <ButtonWithText
         onPress={() =>
           navigation.navigate('LanguagesScreen', {
             target: source,
             type: 'source',
           })
-        }>
-        <Text style={styles.languageTitle}>{source.name}</Text>
-      </TouchableOpacity>
+        }
+        style={styles.languageTitle}
+        text={source.name}
+      />
       <TouchableOpacity onPress={() => replaceLanguage()}>
         <Image
           source={require('../../constants/files/swap.png')}
           style={styles.swap}
         />
       </TouchableOpacity>
-      <TouchableOpacity
+      <ButtonWithText
         onPress={() =>
           navigation.navigate('LanguagesScreen', {
             target: target,
             type: 'target',
           })
-        }>
-        <Text style={styles.languageTitle}>{target.name}</Text>
-      </TouchableOpacity>
+        }
+        style={styles.languageTitle}
+        text={target.name}
+      />
     </View>
   );
 };

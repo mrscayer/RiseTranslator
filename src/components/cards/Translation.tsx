@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import ButtonWithText from '../buttons/ButtonWithText';
 
 interface TranslationProps {
   setSearchText: (val: string) => void;
@@ -41,13 +42,14 @@ const Translation: FC<TranslationProps> = ({
         />
         <View>
           {searchText !== '' && (
-            <TouchableOpacity
+            <ButtonWithText
               onPress={() => {
                 translate('', false);
                 setSearchText('');
-              }}>
-              <Text style={styles.clear}>X</Text>
-            </TouchableOpacity>
+              }}
+              style={styles.clear}
+              text="X"
+            />
           )}
         </View>
       </View>
