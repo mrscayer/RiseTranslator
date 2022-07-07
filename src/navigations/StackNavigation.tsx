@@ -16,6 +16,8 @@ const StackNavigation: FC = () => {
         component={LanguagesScreen}
         options={{
           ...TransitionPresets.ModalPresentationIOS,
+          gestureEnabled: true,
+          gestureResponseDistance: 800,
         }}
       />
     </Stack.Navigator>
