@@ -1,6 +1,6 @@
 import {useRoute} from '@react-navigation/native';
 import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Platform, ScrollView, StyleSheet, View} from 'react-native';
 import Header from '../components/Header';
 import {RootRouteProps} from '../models/RootStackParamList';
 import {translateText} from '../utils/translations';
@@ -94,7 +94,8 @@ const HomeScreen: FC = () => {
     targetCode: string,
   ) => {
     clearTimeout(typingTimer.current);
-    const countdown = recognizingStatus ? 1000 : 500;
+    const countdownValue = Platform.OS === 'android' ? 2500 : 1000;
+    const countdown = recognizingStatus ? countdownValue : 500;
     typingTimer.current = setTimeout(async () => {
       if (val) {
         if (recognizingStatus) {
