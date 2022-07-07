@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {useFavorite} from '../../contexts/FavoriteProvider';
+import FavoriteButton from '../buttons/FavoriteButton';
 const width = Dimensions.get('screen').width;
 interface FavoriteCardProps {
   item: any;
@@ -42,20 +43,11 @@ const FavoriteCard: FC<FavoriteCardProps> = ({item}) => {
           {item.translateText}
         </Text>
       </View>
-      <TouchableOpacity onPress={AddOrRemoveFavorite}>
-        <Image
-          source={require('../../constants/files/star.png')}
-          style={[styles.star, !isFavorite ? {tintColor: 'gray'} : {}]}
-        />
-      </TouchableOpacity>
+      <FavoriteButton isFavorite={isFavorite} onPress={AddOrRemoveFavorite} />
     </View>
   );
 };
 const styles = StyleSheet.create({
-  star: {
-    width: 25,
-    height: 25,
-  },
   container: {
     width: width - 30,
     padding: 10,

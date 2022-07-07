@@ -2,6 +2,7 @@ import React, {FC, useEffect, useMemo, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useFavorite} from '../../contexts/FavoriteProvider';
+import FavoriteButton from '../buttons/FavoriteButton';
 interface TranslationResultsProps {
   results: string;
   searchText: string;
@@ -42,12 +43,7 @@ const TranslationResults: FC<TranslationResultsProps> = ({
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{results}</Text>
-      <TouchableOpacity onPress={AddOrRemoveFavorite}>
-        <Image
-          source={require('../../constants/files/star.png')}
-          style={[styles.star, !isFavorite ? {tintColor: 'gray'} : {}]}
-        />
-      </TouchableOpacity>
+      <FavoriteButton isFavorite={isFavorite} onPress={AddOrRemoveFavorite} />
     </View>
   );
 };
