@@ -52,16 +52,23 @@ const HomeScreen: FC = () => {
 
   useEffect(() => {
     Voice.onSpeechPartialResults = onSpeechPartialResults;
+    Voice.onSpeechResults = onSpeechResults;
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
     };
   }, [target, source]);
 
-  const onSpeechPartialResults = (e: SpeechResultsEvent) => {
+  const onSpeechResults = (e: SpeechResultsEvent) => {
     const searchValue: string =
       typeof e?.value?.[0] === 'string' ? e?.value?.[0] : '';
     setSearchText(searchValue);
     translate(searchValue, true, source?.code, target?.code);
+  };
+
+  const onSpeechPartialResults = (e: SpeechResultsEvent) => {
+    const searchValue: string =
+      typeof e?.value?.[0] === 'string' ? e?.value?.[0] : '';
+    setSearchText(searchValue);
   };
 
   const _startRecognizing = async () => {
