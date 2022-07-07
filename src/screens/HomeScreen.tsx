@@ -63,7 +63,11 @@ const HomeScreen: FC = () => {
 
   const _startRecognizing = async () => {
     try {
-      await Voice.start(source.voiceCode);
+      await Voice.start(source.voiceCode, {
+        RECOGNIZER_ENGINE: 'services',
+        EXTRA_PARTIAL_RESULTS: true,
+        EXTRA_MAX_RESULTS: 30,
+      });
       setSearchText('');
     } catch (e) {
       console.error(e);
@@ -114,7 +118,7 @@ const HomeScreen: FC = () => {
         target={target}
         replaceLanguage={replaceLanguage}
       />
-      <ScrollView keyboardShouldPersistTaps="handled" bounces={false}>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <Translation
           setSearchText={setSearchText}
           searchText={searchText}
