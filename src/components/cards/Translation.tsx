@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import ButtonWithText from '../buttons/ButtonWithText';
+import RecordButton from '../buttons/RecordButton';
 
 interface TranslationProps {
   setSearchText: (val: string) => void;
@@ -53,16 +54,12 @@ const Translation: FC<TranslationProps> = ({
           )}
         </View>
       </View>
-      <TouchableOpacity
+      <RecordButton
+        text={`${recordStatus ? 'Stop' : 'Start'} Record`}
         onPress={() =>
           recordStatus ? _stopRecognizing() : _startRecognizing()
-        }>
-        <View style={styles.record}>
-          <Text style={styles.recordText}>
-            {recordStatus ? 'Stop' : 'Start'} Record
-          </Text>
-        </View>
-      </TouchableOpacity>
+        }
+      />
     </View>
   );
 };
@@ -90,21 +87,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
     padding: 5,
-  },
-  record: {
-    flexDirection: 'row',
-    width: 100,
-    height: 40,
-    borderColor: 'white',
-    borderWidth: 0.4,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-  },
-  recordText: {
-    color: 'white',
   },
 });
 export default Translation;
